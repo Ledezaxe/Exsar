@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="io.cordova.hellocordova" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <meta http-equiv="Content-Security-Policy" />
+    <meta content="default-src 'self' data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" http-equiv="Content-Security-Policy" />
+    <meta content="default-src 'self' 10.0.2.2:5333" http-equiv="Content-Security-Policy" />
+    <meta content="default-src 'self' 10.0.2.2:5333/capteurs" http-equiv="Content-Security-Policy" />
+    <meta content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'" http-equiv="Content-Security-Policy" />
+    <meta content="default-src 'self' http:" http-equiv="Content-Security-Policy" />
+    <meta content="default-src 'self'; frame-src 'self' https://cordova.apache.org" http-equiv="Content-Security-Policy" />
+    <icon density="mdpi" height="57" platform="android" src="www/logo.png" width="57" />
+    <name>Exsar</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Apache Cordova Team
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+</widget>

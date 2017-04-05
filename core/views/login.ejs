@@ -1,0 +1,31 @@
+<!-- views/login.ejs -->
+<!DOCTYPE html>
+<link href="style_profile.css" rel="stylesheet" type="text/css">
+<html>
+  <head>
+    <title>authentification</title>
+      <link href="style_profile.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+
+  <img src="./logo.png" alt="Exsar" height="130" width="130">
+  <form method="post" action="/login">
+      <h1>Identification</h1>
+      <label for="name">Mail:</label>
+      <input name="username" type="email" placeholder="username" required>
+      <label for="pass">Password:</label>
+      <input name="pass" type="password" placeholder="pass" required>
+      <button>Connexion</button>
+    </form>
+
+  <form method="post" action="/insc">
+      <h1>Enregistrement</h1>
+      <label for="name">Mail:</label>
+      <input name="username" type="email" placeholder="username" required>
+      <label for="pass">Password:</label>
+      <input name="pass" type="password" placeholder="pass" required>
+      <button>Inscription</button>
+  </form>
+
+  </body>
+</html>

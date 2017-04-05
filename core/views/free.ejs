@@ -1,0 +1,189 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+
+    <title>profile</title>
+    <style>
+        body {
+            background: rgba(41, 40, 40, 0.78);
+            border-radius: 6px;
+            display: block;
+            font: 14px/24px "Source Code Pro", Inconsolata, "Lucida Console", Terminal, "Courier New", Courier;
+            padding: 24px 15px;
+            text-align: center;
+        }
+        header,
+        section,
+        aside,
+        footer {
+            color: #fff;
+            margin: 0 1.5% 24px 1.5%;
+        }
+        section {
+            float: left;
+            width: 63%;
+        }
+        aside {
+            float: right;
+            width: 30%;
+        }
+        footer {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            padding: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+		<aside><img src="./logo.png" alt="Exsar" height="130" width="130"></aside>
+        <strong>Bonjour </strong>: <%= username %> <br>
+    <H2>Consommation</H2>
+    <div id="chart_conso_graph"></div>
+
+</header>
+
+
+<footer> <form method="post" action="/delog">
+        <button>Déconnexion</button>
+    </form><p>Exsar - Quentin Rouanet 2017</p></footer>
+
+
+<script>
+
+    function aff_graf() {
+        var urlToGet = 'http://localhost:5333/capteurs/<%= id %>/Power/';
+
+        var listeSensors = {};
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open('GET', urlToGet);
+        xmlHttp.send(null);
+        xmlHttp.addEventListener('readystatechange', function () {
+            if (xmlHttp.readyState === 4) {
+                listeSensors = JSON.parse(xmlHttp.responseText);
+
+                var chart = c3.generate(
+                    {
+                        data: {
+                            x: 'x',
+                            xFormat: '%Y-%m-%d %H:%M:%S', // 'xFormat' can be used as custom format of 'x'
+                            columns: [
+                                ['x', listeSensors[0].date, listeSensors[1].date, listeSensors[2].date, listeSensors[3].date, listeSensors[4].date, listeSensors[5].date, listeSensors[6].date],
+                                //            ['x', '20130101', '20130102', '20130103', '20130104', '20130105', '20130106'],
+                                ['Puissance (kVA)', listeSensors[0].value, listeSensors[1].value, listeSensors[2].value, listeSensors[3].value, listeSensors[4].value, listeSensors[5].value, listeSensors[6].value]
+                            ],
+                            type: 'area'
+                        },
+                        tooltip: {
+                            contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
+                                return "<font color='black'>" + d[0].value + "</font>";
+                            }
+                        },
+                        color: {
+                            pattern: ['#2dff09']
+                        },
+                        axis: {
+                            x: {
+                                type: 'timeseries',
+                                tick: {
+                                    format: '%Y-%m-%d %H:%M:%S'
+                                }
+                            }
+                        }
+                    });
+            }
+        });
+
+        var urlToGet_conso = 'http://localhost:5333/capteurs/<%= id %>/Conso/';
+
+        var listeSensors_conso = {};
+        var xmlHttp_conso = new XMLHttpRequest();
+        xmlHttp_conso.open('GET', urlToGet_conso);
+        xmlHttp_conso.send(null);
+        xmlHttp_conso.addEventListener('readystatechange', function () {
+            if (xmlHttp_conso.readyState === 4) {
+                listeSensors_conso = JSON.parse(xmlHttp_conso.responseText);
+
+                var chart = c3.generate(
+                    {
+                        bindto: '#chart_conso_graph',
+                        data: {
+                            x: 'x',
+                            xFormat: '%Y-%m-%d %H:%M:%S', // 'xFormat' can be used as custom format of 'x'
+                            columns: [
+                                ['x', listeSensors_conso[0].date, listeSensors_conso[1].date, listeSensors_conso[2].date, listeSensors_conso[3].date, listeSensors_conso[4].date, listeSensors_conso[5].date, listeSensors_conso[6].date],
+                                //            ['x', '20130101', '20130102', '20130103', '20130104', '20130105', '20130106'],
+                                ['Consommation (kWh)', listeSensors_conso[0].value, listeSensors_conso[1].value, listeSensors_conso[2].value, listeSensors_conso[3].value, listeSensors_conso[4].value, listeSensors_conso[5].value, listeSensors_conso[6].value]
+                            ],
+                            type: 'bar'
+                        },
+                        tooltip: {
+                            contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
+                                return "<font color='black'>" + d[0].value + "</font>";
+                            }
+                        },
+                        color: {
+                            pattern: ['#2cb5ff']
+                        },
+                        axis: {
+                            x: {
+                                type: 'timeseries',
+                                tick: {
+                                    format: '%Y-%m-%d %H:%M:%S'
+                                }
+                            }
+                        }
+                    });
+            }
+        });
+
+        xmlHttp_conso.open('GET', urlToGet_conso);
+        xmlHttp_conso.send(null);
+        xmlHttp_conso.addEventListener('readystatechange', function () {
+            if (xmlHttp_conso.readyState === 4) {
+                listeSensors_conso = JSON.parse(xmlHttp_conso.responseText);
+
+                var perc = (listeSensors_conso[0].value + listeSensors_conso[1].value + listeSensors_conso[2].value + listeSensors_conso[3].value + listeSensors_conso[4].value + listeSensors_conso[5].value + listeSensors_conso[6].value) / 300 * 100;
+                var chart = c3.generate({
+                    bindto: '#chart_conso_jauge',
+                    data: {
+                        columns: [
+                            ['data', perc]
+                        ],
+                        type: 'gauge'
+                    },
+                    tooltip: {
+                        show: false
+
+                    },
+                    color: {
+                        pattern: ['#60B044', '#F6C600', '#FF0000'], // the three color levels for the percentage values.
+                        threshold: {
+                            values: [70, 85, 90]
+                        }
+                    },
+                    size: {
+                        height: 180
+                    }
+                });
+            }
+        });
+
+       setTimeout(aff_graf, 11000);
+    }
+
+    aff_graf();
+
+</script>
+
+</body>
+</html>
+
+
